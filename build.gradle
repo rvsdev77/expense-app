@@ -34,4 +34,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.dbunit:dbunit:2.5.0'
+    testCompile 'com.github.springtestdbunit:spring-test-dbunit:1.2.1'
 }

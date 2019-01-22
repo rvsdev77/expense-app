@@ -34,7 +34,7 @@ public class Expense implements Serializable {
 
     //todo: ponder about cascade operations handling.
     @ManyToOne
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "CATEGORY_ID")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
 }

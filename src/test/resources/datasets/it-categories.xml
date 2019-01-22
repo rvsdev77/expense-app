@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <CATEGORIES CATEGORY_ID="1" CATEGORY_NAME="GROCERIES" DESCRIPTION="Supermarkets, shops, etc"/>
+    <CATEGORIES CATEGORY_ID="2" CATEGORY_NAME="TAXI" DESCRIPTION="Taxi expenses"/>
+    <CATEGORIES CATEGORY_ID="3" CATEGORY_NAME="RENT" DESCRIPTION="Rent expenses"/>
+</dataset>
