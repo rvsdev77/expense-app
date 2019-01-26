@@ -17,8 +17,10 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -44,8 +46,39 @@ public class ExpenseRepositoryIT {
     @Test
     public void testFindByYearAndMonth() {
         List<Expense> expenses = expenseRepository.findExpensesByYearAndMonth(2019, 1);
-        assertEquals(2, expenses.size());
-        //todo: provide more checks
+        assertThat(expenses)
+                .hasSize(2)
+                .extracting(e -> e.getCategory().getCategoryName())
+                .contains("TAXI", "CINEMA");
     }
 
+    @Test
+    public void testFindExpensesByCategoryAndYear() {
+        List<Expense> expenses = expenseRepository.findExpensesByCategoryAndYear(2018, "OTHER");
+        assertThat(expenses)
+                .hasSize(2)
+                .extracting(e -> e.getCategory().getCategoryName())
+                .containsOnly("OTHER");
+    }
+
+    @Test
+    public void testGetTotalSpentForCategory() {
+        BigDecimal total = expenseRepository.getTotalSpentForCategory("OTHER");
+        BigDecimal expected = new BigDecimal("152.27");
+        assertEquals(expected, total);
+    }
+
+    @Test
+    public void testGetTotalSpentForCategoryForYear() {
+        BigDecimal total = expenseRepository.getTotalSpentForCategoryForYear("OTHER", 2019);
+        BigDecimal expected = new BigDecimal("81.00");
+        assertEquals(expected, total);
+    }
+
+    @Test
+    public void testGetTotalSpentForCategoryForMonth() {
+        BigDecimal total = expenseRepository.getTotalSpentForMonth(2018, 7);
+        BigDecimal expected = new BigDecimal("136.62");
+        assertEquals(expected, total);
+    }
 }
