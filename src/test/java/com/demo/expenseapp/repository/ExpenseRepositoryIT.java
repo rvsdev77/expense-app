@@ -19,7 +19,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners({
@@ -44,8 +44,10 @@ public class ExpenseRepositoryIT {
     @Test
     public void testFindByYearAndMonth() {
         List<Expense> expenses = expenseRepository.findExpensesByYearAndMonth(2019, 1);
-        assertEquals(2, expenses.size());
-        //todo: provide more checks
+        assertThat(expenses)
+                .hasSize(2)
+                .extracting(e -> e.getCategory().getCategoryName())
+                .containsOnly("TAXI", "CINEMA");
     }
 
 }
