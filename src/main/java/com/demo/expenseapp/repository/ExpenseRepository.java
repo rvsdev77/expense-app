@@ -85,9 +85,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
 
     /**
-     * @param year
-     * @param category
-     * @return
+     * Finds expenses for specified category during specified year
      */
     @Query(value = "SELECT * from Expenses e inner join Categories c on e.category_id = c.category_id " +
             "where e.year(e.date) = :expectedYear and c.category_name = :category", nativeQuery = true)
@@ -95,10 +93,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
 
     /**
-     * @param year
-     * @param category
-     * @param pageable
-     * @return
+     * Finds expenses for specified category during specified year
      */
     @Query(value = "SELECT * from Expenses e inner join Categories c on e.category_id = c.category_id " +
             "where e.year(e.date) = :expectedYear and c.category_name = :category", nativeQuery = true)
@@ -107,10 +102,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                                                 Pageable pageable);
 
     /**
-     * @param year
-     * @param month
-     * @param category
-     * @return
+     * Finds expenses for specified category during specified month
      */
     @Query(value = "select * from Expenses e inner join Categories c on e.category_id=c.category_id " +
             "where year(e.date) = :expectedYear and month(e.date) = :expectedMonth and c.category_name = :category",
@@ -120,11 +112,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                                                  @Param("category") String category);
 
     /**
-     * @param year
-     * @param month
-     * @param category
-     * @param pageable
-     * @return
+     * Finds expenses for specified category during specified month
      */
     @Query(value = "select * from Expenses e inner join Categories c on e.category_id=c.category_id " +
             "where year(e.date) = :expectedYear and month(e.date) = :expectedMonth and c.category_name = :category",
@@ -135,11 +123,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                                                  Pageable pageable);
 
     /**
-     * @param year
-     * @param month
-     * @param day
-     * @param category
-     * @return
+     * Finds expenses for specified category during specified day
      */
     @Query(value = "select * from Expenses e inner join Categories c on e.category_id=c.category_id " +
             "where year(e.date) = :expectedYear and month(e.date) = :expectedMonth and day(e.date) = :expectedDay " +
@@ -151,13 +135,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                                                @Param("category") String category);
 
     /**
-     *
-     * @param year
-     * @param month
-     * @param day
-     * @param category
-     * @param pageable
-     * @return
+     * Finds expenses for specified category during specified day
      */
     @Query(value = "select * from Expenses e inner join Categories c on e.category_id=c.category_id " +
             "where year(e.date) = :expectedYear and month(e.date) = :expectedMonth and day(e.date) = :expectedDay " +
