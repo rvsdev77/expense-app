@@ -1,6 +1,7 @@
 package com.demo.expenseapp.repository;
 
 import com.demo.expenseapp.domain.Expense;
+import com.demo.expenseapp.domain.vo.CategoryExpenseStatistics;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-    //todo: provide methods for retrieving {categoryName, spent} for statistics
 
     /**
      * Finds expenses for selected period.
@@ -203,4 +203,34 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             " and month(e.date) = :month and day(e.date) = :day",
             nativeQuery = true)
     BigDecimal getTotalSpentForDay(@Param("year") int year, @Param("month") int month, @Param("day") int day);
+
+    /**
+     * Calculates total expenses amount grouped by categories
+     */
+    @Query(value = "select c.category_name as categoryName, sum(e.spent) as amountSpent from Expenses e " +
+            "inner join Categories c on e.category_id=c.category_id group by c.category_name", nativeQuery = true)
+    List<CategoryExpenseStatistics> getSpentByCategory();
+
+    /**
+     * Calculates total expenses amount grouped by categories for specified year
+     */
+    @Query(value = "select c.category_name as categoryName, sum(e.spent) as amountSpent from Expenses e " +
+            "inner join Categories c on e.category_id=c.category_id where year(e.date) = :year group by c.category_name", nativeQuery = true)
+    List<CategoryExpenseStatistics> getSpentByCategoryForYear(@Param("year") int year);
+
+    /**
+     * Calculates total expenses amount grouped by categories for specified month
+     */
+    @Query(value = "select c.category_name as categoryName, sum(e.spent) as amountSpent from Expenses e " +
+            "inner join Categories c on e.category_id=c.category_id where year(e.date) = :year and month(e.date) = :month" +
+            " group by c.category_name", nativeQuery = true)
+    List<CategoryExpenseStatistics> getSpentByCategoryForMonth(@Param("year") int year, @Param("month") int month);
+
+    /**
+     * Calculates total expenses amount grouped by categories for specified day
+     */
+    @Query(value = "select c.category_name as categoryName, sum(e.spent) as amountSpent from Expenses e " +
+            "inner join Categories c on e.category_id=c.category_id where year(e.date) = :year and month(e.date) = :month" +
+            " and day(e.date) = :day group by c.category_name", nativeQuery = true)
+    List<CategoryExpenseStatistics> getSpentByCategoryForDay(@Param("year") int year, @Param("month") int month, @Param("day") int day);
 }

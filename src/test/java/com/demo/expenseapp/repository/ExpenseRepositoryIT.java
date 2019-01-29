@@ -1,6 +1,7 @@
 package com.demo.expenseapp.repository;
 
 import com.demo.expenseapp.domain.Expense;
+import com.demo.expenseapp.domain.vo.CategoryExpenseStatistics;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners({
@@ -80,5 +82,11 @@ public class ExpenseRepositoryIT {
         BigDecimal total = expenseRepository.getTotalSpentForMonth(2018, 7);
         BigDecimal expected = new BigDecimal("136.62");
         assertEquals(expected, total);
+    }
+
+    @Test
+    public void testGetAmountSpentByCategory() {
+        List<CategoryExpenseStatistics> statistics = expenseRepository.getSpentByCategory();
+        assertNotNull(statistics);
     }
 }
