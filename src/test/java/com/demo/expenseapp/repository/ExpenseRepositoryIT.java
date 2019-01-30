@@ -1,7 +1,7 @@
 package com.demo.expenseapp.repository;
 
 import com.demo.expenseapp.domain.Expense;
-import com.demo.expenseapp.domain.vo.CategoryExpenseStatistics;
+import com.demo.expenseapp.domain.dto.CategoryExpenseStatistics;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;

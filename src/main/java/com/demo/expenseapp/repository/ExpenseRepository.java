@@ -1,7 +1,7 @@
 package com.demo.expenseapp.repository;
 
 import com.demo.expenseapp.domain.Expense;
-import com.demo.expenseapp.domain.vo.CategoryExpenseStatistics;
+import com.demo.expenseapp.domain.dto.CategoryExpenseStatistics;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
