@@ -41,196 +41,99 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
      */
     List<Expense> findByExpenseDate(Date date, Pageable pageable);
 
-    /**
-     * Finds expenses that are related to specified category
-     */
-    List<Expense> findByCategory_CategoryName(String category);
+//=========================== Expenses by period =========================================
 
-    /**
-     * Finds expenses that are related to specified category
-     */
-    List<Expense> findByCategory_CategoryName(String category, Pageable pageable);
-
-    /**
-     * Finds expenses for specified year
-     */
-    @Query(value = "SELECT * from Expenses e where year(e.date) = :expectedYear",
+    @Query(value = "SELECT * from Expenses e " +
+            "where (:expectedYear is null or year(e.date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.date) = :expectedDay)",
             nativeQuery = true)
-    List<Expense> findExpensesByYear(@Param("expectedYear") int year);
+    List<Expense> findExpenses(@Param("expectedYear") Integer year,
+                               @Param("expectedMonth") Integer month,
+                               @Param("expectedDay") Integer day);
 
-
-    /**
-     * Finds expenses for specified year
-     */
-    @Query(value = "SELECT * from Expenses e where year(e.date) = :expectedYear",
-            countQuery = "SELECT count(*) from Expense",
+    @Query(value = "SELECT * from Expenses e " +
+            "where (:expectedYear is null or year(e.date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.date) = :expectedDay)",
             nativeQuery = true)
-    List<Expense> findExpensesByYear(@Param("expectedYear") int year, Pageable pageable);
+    List<Expense> findExpenses(@Param("expectedYear") Integer year,
+                               @Param("expectedMonth") Integer month,
+                               @Param("expectedDay") Integer day,
+                               Pageable pageable);
+
+
+//=========================== Expenses by category ========================================
 
     /**
-     * Finds expenses for specified year and month
+     * Finds expenses for specified category during specified period
      */
-    @Query(value = "SELECT * from Expenses e where year(e.date) = :expectedYear and month(e.date) = :expectedMonth",
+    @Query(value = "select * from Expenses e where e.category_id = :categoryId " +
+            "and (:expectedYear is null or year(e.date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.date) = :expectedDay)",
             nativeQuery = true)
-    List<Expense> findExpensesByYearAndMonth(@Param("expectedYear") int year, @Param("expectedMonth") int month);
-
+    List<Expense> findExpensesByCategory(@Param("categoryId") long categoryId,
+                                         @Param("expectedYear") Integer year,
+                                         @Param("expectedMonth") Integer month,
+                                         @Param("expectedDay") Integer day);
 
     /**
-     * Finds expenses for specified year and month
+     * Finds expenses for specified category during specified period
      */
-    @Query(value = "SELECT * from Expenses e where year(e.date) = :expectedYear and month(e.date) = :expectedMonth",
-            countQuery = "SELECT count(*) from Expense",
+    @Query(value = "select * from Expenses e where e.category_id = :categoryId " +
+            "and (:expectedYear is null or year(e.date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.date) = :expectedDay)",
             nativeQuery = true)
-    List<Expense> findExpensesByYearAndMonth(@Param("expectedYear") int year, @Param("expectedMonth") int month, Pageable pageable);
+    List<Expense> findExpensesByCategory(@Param("categoryId") long categoryId,
+                                         @Param("expectedYear") Integer year,
+                                         @Param("expectedMonth") Integer month,
+                                         @Param("expectedDay") Integer day,
+                                         Pageable pageable);
 
-
-    /**
-     * Finds expenses for specified category during specified year
-     */
-    @Query(value = "SELECT * from Expenses e inner join Categories c on e.category_id = c.category_id " +
-            "where e.year(e.date) = :expectedYear and c.category_name = :category", nativeQuery = true)
-    List<Expense> findExpensesByCategoryAndYear(@Param("expectedYear") int year, @Param("category") String category);
-
+//================================= Cumulative Amounts ======================================================
 
     /**
-     * Finds expenses for specified category during specified year
+     * Calculates total amount of expenses that occurred at specific period for specific category
      */
-    @Query(value = "SELECT * from Expenses e inner join Categories c on e.category_id = c.category_id " +
-            "where e.year(e.date) = :expectedYear and c.category_name = :category", nativeQuery = true)
-    List<Expense> findExpensesByCategoryAndYear(@Param("expectedYear") int year,
-                                                @Param("category") String category,
-                                                Pageable pageable);
-
-    /**
-     * Finds expenses for specified category during specified month
-     */
-    @Query(value = "select * from Expenses e inner join Categories c on e.category_id=c.category_id " +
-            "where year(e.date) = :expectedYear and month(e.date) = :expectedMonth and c.category_name = :category",
-            nativeQuery = true)
-    List<Expense> findExpensesByCategoryAndMonth(@Param("expectedYear") int year,
-                                                 @Param("expectedMonth") int month,
-                                                 @Param("category") String category);
-
-    /**
-     * Finds expenses for specified category during specified month
-     */
-    @Query(value = "select * from Expenses e inner join Categories c on e.category_id=c.category_id " +
-            "where year(e.date) = :expectedYear and month(e.date) = :expectedMonth and c.category_name = :category",
-            nativeQuery = true)
-    List<Expense> findExpensesByCategoryAndMonth(@Param("expectedYear") int year,
-                                                 @Param("expectedMonth") int month,
-                                                 @Param("category") String category,
-                                                 Pageable pageable);
-
-    /**
-     * Finds expenses for specified category during specified day
-     */
-    @Query(value = "select * from Expenses e inner join Categories c on e.category_id=c.category_id " +
-            "where year(e.date) = :expectedYear and month(e.date) = :expectedMonth and day(e.date) = :expectedDay " +
-            "and c.category_name = :category",
-            nativeQuery = true)
-    List<Expense> findExpensesByCategoryAndDay(@Param("expectedYear") int year,
-                                               @Param("expectedMonth") int month,
-                                               @Param("expectedDay") int day,
-                                               @Param("category") String category);
-
-    /**
-     * Finds expenses for specified category during specified day
-     */
-    @Query(value = "select * from Expenses e inner join Categories c on e.category_id=c.category_id " +
-            "where year(e.date) = :expectedYear and month(e.date) = :expectedMonth and day(e.date) = :expectedDay " +
-            "and c.category_name = :category",
-            nativeQuery = true)
-    List<Expense> findExpensesByCategoryAndDay(@Param("expectedYear") int year,
-                                               @Param("expectedMonth") int month,
-                                               @Param("expectedDay") int day,
-                                               @Param("category") String category,
-                                               Pageable pageable);
-
-    /**
-     * Calculates total amount of expenses for specific category
-     */
-    @Query(value = "select sum(e.spent) from Expenses e inner join Categories c on e.category_id = c.category_id " +
-            "where c.category_name = :category group by e.category_id",
-            nativeQuery = true)
-    BigDecimal getTotalSpentForCategory(@Param("category") String category);
-
-    /**
-     * Calculates total amount of expenses that occurred at specific year for specific category
-     */
-    @Query(value = "select sum(e.spent) from Expenses e inner join Categories c on e.category_id = c.category_id " +
-            "where c.category_name = :category and year(e.date) = :expectedYear group by e.category_id",
-            nativeQuery = true)
-    BigDecimal getTotalSpentForCategoryForYear(@Param("category") String category, @Param("expectedYear") int year);
-
-    /**
-     * Calculates total amount of expenses that occurred at specific month for specific category
-     */
-    @Query(value = "select sum(e.spent) from Expenses e inner join Categories c on e.category_id = c.category_id " +
-            "where c.category_name = :category and year(e.date) = :expectedYear and month(e.date) = :expectedMonth " +
+    @Query(value = "select sum(e.spent) from Expenses e " +
+            "where e.category_id = :categoryId " +
+            "and (:expectedYear is null or year(e.date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.date) = :expectedDay) " +
             "group by e.category_id",
             nativeQuery = true)
-    BigDecimal getTotalSpentForCategoryForMonth(@Param("category") String category, @Param("expectedYear") int year, @Param("expectedMonth") int month);
-
+    BigDecimal getTotalSpentForCategory(@Param("categoryId") long categoryId,
+                                        @Param("expectedYear") Integer year,
+                                        @Param("expectedMonth") Integer month,
+                                        @Param("expectedDay") Integer day);
     /**
-     * Calculates total amount of expenses that occurred at specific day for specific category
+     * Calculates total amount of expenses for a specific period
      */
-    @Query(value = "select sum(e.spent) from Expenses e inner join Categories c on e.category_id = c.category_id " +
-            "where c.category_name = :category and year(e.date) = :expectedYear and month(e.date) = :expectedMonth " +
-            "and day(e.date) = :expectedDay group by e.category_id",
+    @Query(value = "select sum(e.spent) from Expenses e " +
+            "where (:expectedYear is null or year(e.date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.date) = :expectedDay)",
             nativeQuery = true)
-    BigDecimal getTotalSpentForCategoryForDay(@Param("category") String category,
-                                              @Param("expectedYear") int year,
-                                              @Param("expectedMonth") int month,
-                                              @Param("expectedDay") int day);
-    /**
-     * Calculates total amount of expenses for a specific year
-     */
-    @Query(value = "select sum(e.spent) from Expenses e where year(e.date) = :year", nativeQuery = true)
-    BigDecimal getTotalSpentForYear(@Param("year") int year);
+    BigDecimal getTotalSpent(@Param("expectedYear") Integer year,
+                             @Param("expectedMonth") Integer month,
+                             @Param("expectedDay") Integer day);
 
-    /**
-     * Calculates total amount of expenses for a specific month
-     */
-    @Query(value = "select sum(e.spent) from Expenses e where year(e.date) = :year and month(e.date) = :month",
-            nativeQuery = true)
-    BigDecimal getTotalSpentForMonth(@Param("year") int year, @Param("month") int month);
 
-    /**
-     * Calculates total amount of expenses for a specific day
-     */
-    @Query(value = "select sum(e.spent) from Expenses e where year(e.date) = :year" +
-            " and month(e.date) = :month and day(e.date) = :day",
-            nativeQuery = true)
-    BigDecimal getTotalSpentForDay(@Param("year") int year, @Param("month") int month, @Param("day") int day);
+    /*================================ Statistics ===================================*/
 
     /**
      * Calculates total expenses amount grouped by categories
      */
     @Query(value = "select c.category_name as categoryName, sum(e.spent) as amountSpent from Expenses e " +
-            "inner join Categories c on e.category_id=c.category_id group by c.category_name", nativeQuery = true)
-    List<CategoryExpenseStatistics> getSpentByCategory();
-
-    /**
-     * Calculates total expenses amount grouped by categories for specified year
-     */
-    @Query(value = "select c.category_name as categoryName, sum(e.spent) as amountSpent from Expenses e " +
-            "inner join Categories c on e.category_id=c.category_id where year(e.date) = :year group by c.category_name", nativeQuery = true)
-    List<CategoryExpenseStatistics> getSpentByCategoryForYear(@Param("year") int year);
-
-    /**
-     * Calculates total expenses amount grouped by categories for specified month
-     */
-    @Query(value = "select c.category_name as categoryName, sum(e.spent) as amountSpent from Expenses e " +
-            "inner join Categories c on e.category_id=c.category_id where year(e.date) = :year and month(e.date) = :month" +
-            " group by c.category_name", nativeQuery = true)
-    List<CategoryExpenseStatistics> getSpentByCategoryForMonth(@Param("year") int year, @Param("month") int month);
-
-    /**
-     * Calculates total expenses amount grouped by categories for specified day
-     */
-    @Query(value = "select c.category_name as categoryName, sum(e.spent) as amountSpent from Expenses e " +
-            "inner join Categories c on e.category_id=c.category_id where year(e.date) = :year and month(e.date) = :month" +
-            " and day(e.date) = :day group by c.category_name", nativeQuery = true)
-    List<CategoryExpenseStatistics> getSpentByCategoryForDay(@Param("year") int year, @Param("month") int month, @Param("day") int day);
+            "inner join Categories c on e.category_id=c.category_id " +
+            "where (:expectedYear is null or year(e.date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.date) = :expectedDay) " +
+            "group by c.category_name",
+            nativeQuery = true)
+    List<CategoryExpenseStatistics> getCategoryExpenseStatistics(@Param("expectedYear") Integer year,
+                                                                 @Param("expectedMonth") Integer month,
+                                                                 @Param("expectedDay") Integer day);
 }

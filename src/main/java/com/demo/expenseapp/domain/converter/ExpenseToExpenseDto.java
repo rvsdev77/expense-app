@@ -20,6 +20,7 @@ public class ExpenseToExpenseDto implements Converter<Expense, ExpenseDto> {
             return null;
         }
         ExpenseDto dto = new ExpenseDto();
+        dto.setId(expense.getId());
         dto.setAmountSpent(expense.getAmountSpent());
         dto.setCategory(toCategoryDto.convert(expense.getCategory()));
         dto.setDate(expense.getExpenseDate());

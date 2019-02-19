@@ -1,5 +1,7 @@
 package com.demo.expenseapp.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
 /**
@@ -7,7 +9,9 @@ import java.math.BigDecimal;
  */
 public interface CategoryExpenseStatistics {
 
+    @JsonProperty("category")
     String getCategoryName();
 
+    @JsonProperty("totalSpent")
     BigDecimal getAmountSpent();
 }

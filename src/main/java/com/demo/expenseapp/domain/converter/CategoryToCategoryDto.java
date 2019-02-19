@@ -15,6 +15,7 @@ public class CategoryToCategoryDto implements Converter<Category, CategoryDto> {
         }
 
         CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(category.getCategoryId());
         categoryDto.setCategoryName(category.getCategoryName());
         categoryDto.setDescription(category.getDescription());
         return categoryDto;

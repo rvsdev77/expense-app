@@ -4,6 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class CategoryDto {
+
+    @Getter
+    @Setter
+    private Long categoryId;
+
     @Getter
     @Setter
     private String categoryName;

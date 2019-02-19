@@ -47,7 +47,7 @@ public class ExpenseRepositoryIT {
 
     @Test
     public void testFindByYearAndMonth() {
-        List<Expense> expenses = expenseRepository.findExpensesByYearAndMonth(2019, 1);
+        List<Expense> expenses = expenseRepository.findExpenses(2019, 1, null);
         assertThat(expenses)
                 .hasSize(2)
                 .extracting(e -> e.getCategory().getCategoryName())
@@ -56,7 +56,7 @@ public class ExpenseRepositoryIT {
 
     @Test
     public void testFindExpensesByCategoryAndYear() {
-        List<Expense> expenses = expenseRepository.findExpensesByCategoryAndYear(2018, "OTHER");
+        List<Expense> expenses = expenseRepository.findExpensesByCategory(10, 2018, null, null);
         assertThat(expenses)
                 .hasSize(2)
                 .extracting(e -> e.getCategory().getCategoryName())
@@ -65,28 +65,35 @@ public class ExpenseRepositoryIT {
 
     @Test
     public void testGetTotalSpentForCategory() {
-        BigDecimal total = expenseRepository.getTotalSpentForCategory("OTHER");
+        BigDecimal total = expenseRepository.getTotalSpentForCategory(10, null, null, null);
         BigDecimal expected = new BigDecimal("152.27");
         assertEquals(expected, total);
     }
 
     @Test
     public void testGetTotalSpentForCategoryForYear() {
-        BigDecimal total = expenseRepository.getTotalSpentForCategoryForYear("OTHER", 2019);
+        BigDecimal total = expenseRepository.getTotalSpentForCategory(10, 2019, null, null);
         BigDecimal expected = new BigDecimal("81.00");
         assertEquals(expected, total);
     }
 
     @Test
     public void testGetTotalSpentForCategoryForMonth() {
-        BigDecimal total = expenseRepository.getTotalSpentForMonth(2018, 7);
+        BigDecimal total = expenseRepository.getTotalSpent(2018, 7, null);
         BigDecimal expected = new BigDecimal("136.62");
         assertEquals(expected, total);
     }
 
     @Test
     public void testGetAmountSpentByCategory() {
-        List<CategoryExpenseStatistics> statistics = expenseRepository.getSpentByCategory();
+        List<CategoryExpenseStatistics> statistics = expenseRepository.getCategoryExpenseStatistics(null, null, null);
         assertNotNull(statistics);
+    }
+
+    @Test
+    public void testFindExpensesByCategoryAndDay() {
+        List<Expense> expenses = expenseRepository.findExpensesByCategory(3, 2018, 7, null);
+        assertThat(expenses)
+                .hasSize(2);
     }
 }

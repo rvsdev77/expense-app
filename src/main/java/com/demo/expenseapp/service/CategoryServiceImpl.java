@@ -3,7 +3,10 @@ package com.demo.expenseapp.service;
 import com.demo.expenseapp.domain.Category;
 import com.demo.expenseapp.domain.converter.CategoryToCategoryDto;
 import com.demo.expenseapp.domain.dto.CategoryDto;
+import com.demo.expenseapp.exeptions.NotFoundException;
 import com.demo.expenseapp.repository.CategoryRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +17,8 @@ import java.util.stream.Collectors;
 @Service
 public class CategoryServiceImpl implements CategoryService {
     //todo: logging
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryServiceImpl.class);
+
     private CategoryRepository categoryRepository;
     private CategoryToCategoryDto categoryConverter;
 
@@ -25,6 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> getAll() {
+        LOGGER.debug("Retrieving all expense categories...");
         List<Category> categories = categoryRepository.findAll();
 
         return categories.stream()
@@ -48,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> category = categoryRepository.findById(id);
         if (!category.isPresent()) {
             //todo: throw specific exception + exception handling at representation layer
-            throw new RuntimeException("The category with specified id does not exist!");
+            throw new NotFoundException("The category with specified id does not exist!");
         }
         return categoryConverter.convert(category.get());
     }

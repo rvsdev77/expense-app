@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class ExpenseDto {
+    @Getter @Setter private Long id;
     @Getter @Setter private BigDecimal amountSpent;
     @Getter @Setter private CategoryDto category;
     @Getter @Setter private Date date;
