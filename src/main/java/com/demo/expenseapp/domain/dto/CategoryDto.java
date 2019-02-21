@@ -2,7 +2,9 @@ package com.demo.expenseapp.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 public class CategoryDto {
 
     @Getter
