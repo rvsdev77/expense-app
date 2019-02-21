@@ -16,7 +16,7 @@ import java.util.Objects;
 
 // introduced only for initial data population
 //todo: should be removed after persistent storage is introduced. mysql docker image?
-@Component
+//@Component
 public class Bootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private CategoryRepository categoryRepository;

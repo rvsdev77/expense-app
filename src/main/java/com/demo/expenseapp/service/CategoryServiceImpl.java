@@ -6,7 +6,7 @@ import com.demo.expenseapp.domain.converter.CategoryToCategoryDto;
 import com.demo.expenseapp.domain.dto.CategoryDto;
 import com.demo.expenseapp.exeptions.NotFoundException;
 import com.demo.expenseapp.repository.CategoryRepository;
-import org.apache.commons.lang3.Validate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

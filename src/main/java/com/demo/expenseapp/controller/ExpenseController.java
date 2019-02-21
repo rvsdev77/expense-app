@@ -1,6 +1,7 @@
 package com.demo.expenseapp.controller;
 
 import com.demo.expenseapp.domain.dto.CategoryExpenseStatistics;
+import com.demo.expenseapp.domain.dto.ExpenseDto;
 import com.demo.expenseapp.exeptions.NotFoundException;
 import com.demo.expenseapp.service.ExpenseService;
 import org.springframework.util.CollectionUtils;
@@ -21,6 +22,11 @@ public class ExpenseController {
 
     public ExpenseController(ExpenseService expenseService) {
         this.expenseService = Objects.requireNonNull(expenseService, "expenseService could not be null");
+    }
+
+    @GetMapping
+    public List<ExpenseDto> getAllExpenses() {
+        return expenseService.getAllExpenses();
     }
 
     @GetMapping("/statistics")
