@@ -29,9 +29,4 @@ public interface CategoryService {
      */
     CategoryDto getById(long id);
 
-//    /**
-//     * Retrieves expense category by its name
-//     */
-//    CategoryDto getByCategoryName(String categoryName);
-
 }

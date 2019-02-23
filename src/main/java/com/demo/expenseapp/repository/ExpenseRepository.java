@@ -44,18 +44,18 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 //=========================== Expenses by period =========================================
 
     @Query(value = "SELECT * from Expenses e " +
-            "where (:expectedYear is null or year(e.date) = :expectedYear) " +
-            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
-            "and (:expectedDay is null or day(e.date) = :expectedDay)",
+            "where (:expectedYear is null or year(e.expense_date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.expense_date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.expense_date) = :expectedDay)",
             nativeQuery = true)
     List<Expense> findExpenses(@Param("expectedYear") Integer year,
                                @Param("expectedMonth") Integer month,
                                @Param("expectedDay") Integer day);
 
     @Query(value = "SELECT * from Expenses e " +
-            "where (:expectedYear is null or year(e.date) = :expectedYear) " +
-            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
-            "and (:expectedDay is null or day(e.date) = :expectedDay)",
+            "where (:expectedYear is null or year(e.expense_date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.expense_date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.expense_date) = :expectedDay)",
             nativeQuery = true)
     List<Expense> findExpenses(@Param("expectedYear") Integer year,
                                @Param("expectedMonth") Integer month,
@@ -69,9 +69,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
      * Finds expenses for specified category during specified period
      */
     @Query(value = "select * from Expenses e where e.category_id = :categoryId " +
-            "and (:expectedYear is null or year(e.date) = :expectedYear) " +
-            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
-            "and (:expectedDay is null or day(e.date) = :expectedDay)",
+            "and (:expectedYear is null or year(e.expense_date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.expense_date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.expense_date) = :expectedDay)",
             nativeQuery = true)
     List<Expense> findExpensesByCategory(@Param("categoryId") long categoryId,
                                          @Param("expectedYear") Integer year,
@@ -82,9 +82,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
      * Finds expenses for specified category during specified period
      */
     @Query(value = "select * from Expenses e where e.category_id = :categoryId " +
-            "and (:expectedYear is null or year(e.date) = :expectedYear) " +
-            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
-            "and (:expectedDay is null or day(e.date) = :expectedDay)",
+            "and (:expectedYear is null or year(e.expense_date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.expense_date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.expense_date) = :expectedDay)",
             nativeQuery = true)
     List<Expense> findExpensesByCategory(@Param("categoryId") long categoryId,
                                          @Param("expectedYear") Integer year,
@@ -99,9 +99,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
      */
     @Query(value = "select sum(e.spent) from Expenses e " +
             "where e.category_id = :categoryId " +
-            "and (:expectedYear is null or year(e.date) = :expectedYear) " +
-            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
-            "and (:expectedDay is null or day(e.date) = :expectedDay) " +
+            "and (:expectedYear is null or year(e.expense_date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.expense_date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.expense_date) = :expectedDay) " +
             "group by e.category_id",
             nativeQuery = true)
     BigDecimal getTotalSpentForCategory(@Param("categoryId") long categoryId,
@@ -112,9 +112,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
      * Calculates total amount of expenses for a specific period
      */
     @Query(value = "select sum(e.spent) from Expenses e " +
-            "where (:expectedYear is null or year(e.date) = :expectedYear) " +
-            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
-            "and (:expectedDay is null or day(e.date) = :expectedDay)",
+            "where (:expectedYear is null or year(e.expense_date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.expense_date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.expense_date) = :expectedDay)",
             nativeQuery = true)
     BigDecimal getTotalSpent(@Param("expectedYear") Integer year,
                              @Param("expectedMonth") Integer month,
@@ -128,9 +128,9 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
      */
     @Query(value = "select c.category_name as categoryName, sum(e.spent) as amountSpent from Expenses e " +
             "inner join Categories c on e.category_id=c.category_id " +
-            "where (:expectedYear is null or year(e.date) = :expectedYear) " +
-            "and (:expectedMonth is null or month(e.date) = :expectedMonth) " +
-            "and (:expectedDay is null or day(e.date) = :expectedDay) " +
+            "where (:expectedYear is null or year(e.expense_date) = :expectedYear) " +
+            "and (:expectedMonth is null or month(e.expense_date) = :expectedMonth) " +
+            "and (:expectedDay is null or day(e.expense_date) = :expectedDay) " +
             "group by c.category_name",
             nativeQuery = true)
     List<CategoryExpenseStatistics> getCategoryExpenseStatistics(@Param("expectedYear") Integer year,

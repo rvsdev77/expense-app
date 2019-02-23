@@ -10,7 +10,11 @@ import java.util.List;
  */
 public interface ExpenseService {
 
-    List<CategoryExpenseStatistics> getCategoryExpenseStatistics(Integer year, Integer month, Integer day);
-
     List<ExpenseDto> getAllExpenses();
+
+    ExpenseDto getExpenseById(Long id);
+
+    List<ExpenseDto> getExpensesByCategoryId(Long categoryId);
+
+    List<CategoryExpenseStatistics> getCategoryExpenseStatistics(Integer year, Integer month, Integer day);
 }

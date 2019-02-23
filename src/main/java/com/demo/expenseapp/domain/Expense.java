@@ -25,7 +25,7 @@ public class Expense implements Serializable {
     @Column(name = "SPENT", precision = 10, scale = 2)
     private BigDecimal amountSpent;
 
-    @Column(name = "DATE")
+    @Column(name = "EXPENSE_DATE")
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date expenseDate;
 

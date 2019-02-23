@@ -41,4 +41,14 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .collect(Collectors.toList());
 
     }
+
+    @Override
+    public ExpenseDto getExpenseById(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<ExpenseDto> getExpensesByCategoryId(Long categoryId) {
+        return null;
+    }
 }
