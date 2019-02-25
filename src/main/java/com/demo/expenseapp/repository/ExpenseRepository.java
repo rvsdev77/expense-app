@@ -41,6 +41,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
      */
     List<Expense> findByExpenseDate(Date date, Pageable pageable);
 
+    List<Expense> findExpensesByCategory_CategoryId(Long categoryId);
+
 //=========================== Expenses by period =========================================
 
     @Query(value = "SELECT * from Expenses e " +
@@ -73,7 +75,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             "and (:expectedMonth is null or month(e.expense_date) = :expectedMonth) " +
             "and (:expectedDay is null or day(e.expense_date) = :expectedDay)",
             nativeQuery = true)
-    List<Expense> findExpensesByCategory(@Param("categoryId") long categoryId,
+    List<Expense> findExpensesByCategory(@Param("categoryId") Long categoryId,
                                          @Param("expectedYear") Integer year,
                                          @Param("expectedMonth") Integer month,
                                          @Param("expectedDay") Integer day);
@@ -104,7 +106,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             "and (:expectedDay is null or day(e.expense_date) = :expectedDay) " +
             "group by e.category_id",
             nativeQuery = true)
-    BigDecimal getTotalSpentForCategory(@Param("categoryId") long categoryId,
+    BigDecimal getTotalSpentForCategory(@Param("categoryId") Long categoryId,
                                         @Param("expectedYear") Integer year,
                                         @Param("expectedMonth") Integer month,
                                         @Param("expectedDay") Integer day);

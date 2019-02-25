@@ -22,11 +22,11 @@ public interface CategoryService {
     /**
      * Deletes expense category by id
      */
-    void deleteCategory(long id);
+    void deleteCategory(Long id);
 
     /**
      * Retrieves expense category by id
      */
-    CategoryDto getById(long id);
+    CategoryDto getById(Long id);
 
 }

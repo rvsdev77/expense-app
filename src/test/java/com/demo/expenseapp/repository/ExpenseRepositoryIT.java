@@ -56,7 +56,7 @@ public class ExpenseRepositoryIT {
 
     @Test
     public void testFindExpensesByCategoryAndYear() {
-        List<Expense> expenses = expenseRepository.findExpensesByCategory(10, 2018, null, null);
+        List<Expense> expenses = expenseRepository.findExpensesByCategory(10L, 2018, null, null);
         assertThat(expenses)
                 .hasSize(2)
                 .extracting(e -> e.getCategory().getCategoryName())
@@ -65,14 +65,14 @@ public class ExpenseRepositoryIT {
 
     @Test
     public void testGetTotalSpentForCategory() {
-        BigDecimal total = expenseRepository.getTotalSpentForCategory(10, null, null, null);
+        BigDecimal total = expenseRepository.getTotalSpentForCategory(10L, null, null, null);
         BigDecimal expected = new BigDecimal("152.27");
         assertEquals(expected, total);
     }
 
     @Test
     public void testGetTotalSpentForCategoryForYear() {
-        BigDecimal total = expenseRepository.getTotalSpentForCategory(10, 2019, null, null);
+        BigDecimal total = expenseRepository.getTotalSpentForCategory(10L, 2019, null, null);
         BigDecimal expected = new BigDecimal("81.00");
         assertEquals(expected, total);
     }
@@ -92,7 +92,7 @@ public class ExpenseRepositoryIT {
 
     @Test
     public void testFindExpensesByCategoryAndDay() {
-        List<Expense> expenses = expenseRepository.findExpensesByCategory(3, 2018, 7, null);
+        List<Expense> expenses = expenseRepository.findExpensesByCategory(3L, 2018, 7, null);
         assertThat(expenses)
                 .hasSize(2);
     }

@@ -10,6 +10,8 @@ import com.demo.expenseapp.repository.CategoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StopWatch;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,13 +37,20 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDto> getAll() {
         LOGGER.debug("Retrieving all expense categories...");
+
+        StopWatch watch = new StopWatch();
+        watch.start();
+
         List<Category> categories = categoryRepository.findAll();
+
+        LOGGER.debug("Got {} records in {} ms", categories.size(), watch.getTotalTimeMillis());
 
         return categories.stream()
                 .map(category -> categoryConverter.convert(category))
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public CategoryDto saveCategory(CategoryDto categoryDto) {
         Objects.requireNonNull(categoryDto, "The category being saved cannot be null!");
@@ -51,17 +60,18 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryConverter.convert(savedCategory);
     }
 
+    @Transactional
     @Override
-    public void deleteCategory(long id) {
-        //todo validate id
+    public void deleteCategory(Long id) {
+        Objects.requireNonNull(id, "category id cannot be null for delete operation");
         LOGGER.debug("Deleting category with id = {}", id);
 
         categoryRepository.deleteById(id);
     }
 
     @Override
-    public CategoryDto getById(long id) {
-        //todo validate id
+    public CategoryDto getById(Long id) {
+        Objects.requireNonNull(id, "category id cannot be null");
         LOGGER.debug("Fetching category by id = {}", id);
 
         Optional<Category> category = categoryRepository.findById(id);
